@@ -18,13 +18,13 @@ public class GameFrame extends JFrame implements ActionListener{
 	JLabel titleLabel;
 	JLabel menuLabel;
 	JLabel timeLabel;
-	JPanel menuPanel;
-	JPanel titlePanel;
-	JPanel gamePanel;
+	JPanel menuPanel;//Panel w prawej częsci ekranu posiadający menu opcji takich jak reset trudniejszy poziom i wyjscie z gry oraz licznik czasu rozgrywki i informacja o bombach
+	JPanel titlePanel;//Panel na górze ekranu, który informuje o wygranej lub przegranej a domyślnie posiada tytuł gry
+	JPanel gamePanel;//Panel głównej rozgrywki
 	JButton[] menuButtons;
 	JButton[][] gameButtons;
 	ImageIcon bomb = new ImageIcon("bomb.png");
-	ImageIcon bomb2 = new ImageIcon("bomb.png");
+	ImageIcon bomb2 = new ImageIcon("bomb2.png");
 	
 	int time = 0;
 	int seconds = 0;
@@ -37,16 +37,16 @@ public class GameFrame extends JFrame implements ActionListener{
 	int xPos;
 	int yPos;
 	
-	Timer timer = new Timer(1000, new ActionListener() {
+	Timer timeMeter = new Timer(1000, new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
 			
 			time+=1000;
-			minutes = (time/60000) % 60;
 			seconds = (time/1000) % 60;
+			minutes = (time/60000) % 60;
 			secondsString = String.format("%02d", seconds);
 			minutesString = String.format("%02d", minutes);
-			timeLabel.setText(minutesString+":"+secondsString);//potem musisz dodac jeszcze to ze kiedy gracz wcisnie pierwsze pole gry to time.start();
+			timeLabel.setText(minutesString+":"+secondsString);
 		}
 	});
 	
@@ -58,14 +58,16 @@ public class GameFrame extends JFrame implements ActionListener{
 		this.setSize(1280,1024);
 		this.setLayout(null);
 		this.setResizable(false);
+		this.setTitle("Bombowa Łamigłówka");
+		this.setIconImage(bomb.getImage());
 		this.getContentPane().setBackground(new Color(0x8D91C7));
 		createGamePanel();
 		createMenuPanel();
 		createTitlePanel();
 		
-		this.add(menuPanel); //, BorderLayout.EAST
-		this.add(titlePanel); //, BorderLayout.NORTH
-		this.add(gamePanel); //, BorderLayout.CENTER
+		this.add(menuPanel);
+		this.add(titlePanel);
+		this.add(gamePanel);
 		this.setVisible(true);
 	}
 	
@@ -73,7 +75,6 @@ public class GameFrame extends JFrame implements ActionListener{
 	{
 		sizeOfGrid = 10;
 		gamePanel = new JPanel();
-		//gamePanel.setLayout(null);
 		gamePanel.setBackground(new Color(0x313DE6));
 		gamePanel.setBounds(0, 100, 1080, 743);//924 ostatnie 743 dzialalo
 		//gamePanel.setPreferredSize(new Dimension(1080,200));
@@ -104,7 +105,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		//menuPanel.setPreferredSize(new Dimension(200,200));
 		menuPanel.setBounds(1080, 100, 200, 924);
 		
-		//dodac labele odpowiedzialne za licznik bomb oraz za czasomierz
+		//dodac label odpowiedzialny za licznik bomb
 		
 		menuLabel = new JLabel();//ROZWINAC JLABEL
 		timeLabel = new JLabel();
@@ -130,7 +131,6 @@ public class GameFrame extends JFrame implements ActionListener{
 		menuButtons[2].setFont(new Font("Times New Roman", Font.BOLD, 17));
 		
 		menuLabel.setBounds(0, 300, 200, 100);
-		//menuLabel.setBackground(Color.GREEN);
 		menuLabel.setText("Menu:");
 		menuLabel.setForeground(new Color(0x27272C));//
 		menuLabel.setVerticalAlignment(JLabel.BOTTOM);
@@ -165,14 +165,14 @@ public class GameFrame extends JFrame implements ActionListener{
 		titlePanel.add(titleLabel);
 	}
 	
-	public void gameplay(int xPos, int yPos)
+	public void gameplay(int xPos, int yPos)//to sie wykorzysta w nowej klasie prawdopodobnie zwiazanej z logiką gry
 	{
 		
 	}
 	
 	public void resetTime()
 	{
-		timer.stop();
+		timeMeter.stop();
 		time=0;
 		seconds =0;
 		minutes=0;
@@ -208,17 +208,13 @@ public class GameFrame extends JFrame implements ActionListener{
 				{
 					if(firstPress == false)
 					{
-						timer.start();
+						timeMeter.start();
 						firstPress = true;
 					}
-					System.out.println("Klikniete");
 					gameButtons[i][j].setBackground(Color.RED);
 					gameButtons[i][j].setEnabled(false);
-					
 				}
 			}
 		}
-		
 	}
-
 }
