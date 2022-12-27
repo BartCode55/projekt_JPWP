@@ -25,11 +25,13 @@ public class GameFrame extends JFrame implements ActionListener{
 	JButton[][] gameButtons;
 	ImageIcon bomb = new ImageIcon("bomb.png");
 	ImageIcon bomb2 = new ImageIcon("bomb2.png");
+	Gameplay test;
 	
 	int time = 0;
 	int seconds = 0;
 	int minutes = 0;
 	boolean firstPress = false;
+	boolean hardMap;
 	String secondsString = String.format("%02d", seconds);
 	String minutesString = String.format("%02d", minutes);
 	
@@ -61,6 +63,9 @@ public class GameFrame extends JFrame implements ActionListener{
 		this.setTitle("Bombowa Łamigłówka");
 		this.setIconImage(bomb.getImage());
 		this.getContentPane().setBackground(new Color(0x8D91C7));
+		
+		gameplay();
+				
 		createGamePanel();
 		createMenuPanel();
 		createTitlePanel();
@@ -68,6 +73,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		this.add(menuPanel);
 		this.add(titlePanel);
 		this.add(gamePanel);
+		
 		this.setVisible(true);
 	}
 	
@@ -165,9 +171,10 @@ public class GameFrame extends JFrame implements ActionListener{
 		titlePanel.add(titleLabel);
 	}
 	
-	public void gameplay(int xPos, int yPos)//to sie wykorzysta w nowej klasie prawdopodobnie zwiazanej z logiką gry
+	public void gameplay()// int xPos, int yPos to sie wykorzysta w nowej klasie prawdopodobnie zwiazanej z logiką gry
 	{
-		
+		test = new Gameplay();
+		test.randomizeBombs();
 	}
 	
 	public void resetTime()
@@ -211,7 +218,14 @@ public class GameFrame extends JFrame implements ActionListener{
 						timeMeter.start();
 						firstPress = true;
 					}
-					gameButtons[i][j].setBackground(Color.RED);
+					if(test.isBomb[i][j] == true)
+					{
+						gameButtons[i][j].setBackground(Color.RED);
+					}
+					else
+					{
+						gameButtons[i][j].setBackground(Color.GREEN);
+					}
 					gameButtons[i][j].setEnabled(false);
 				}
 			}
