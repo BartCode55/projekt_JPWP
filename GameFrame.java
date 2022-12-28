@@ -32,12 +32,14 @@ public class GameFrame extends JFrame implements ActionListener{
 	int minutes = 0;
 	boolean firstPress = false;
 	boolean hardMap;
+	int pressMeter;
 	String secondsString = String.format("%02d", seconds);
 	String minutesString = String.format("%02d", minutes);
 	
 	int sizeOfGrid;
 	int xPos;
 	int yPos;
+	String bombsAroundString;
 	
 	Timer timeMeter = new Timer(1000, new ActionListener() {
 		
@@ -97,6 +99,7 @@ public class GameFrame extends JFrame implements ActionListener{
 				gameButtons[i][j].setFocusable(false);
 				gameButtons[i][j].addActionListener(this);
 				gameButtons[i][j].setText("");
+				gameButtons[i][j].setFont(new Font("Times New Roman", Font.BOLD, 25));
 				gameButtons[i][j].setBackground(new Color(0x47128E));
 				gamePanel.add(gameButtons[i][j]);
 			}
@@ -204,8 +207,12 @@ public class GameFrame extends JFrame implements ActionListener{
 				{
 					gameButtons[i][j].setBackground(new Color(0x47128E));
 					gameButtons[i][j].setEnabled(true);
+					gameButtons[i][j].setText("");
+					gameButtons[i][j].setIcon(null);
 				}
 			}
+			test.randomizeBombs();
+			titleLabel.setText("Bombowa Lamiglowka");
 		}
 		for (int i=0; i<gameButtons.length; i++)
 		{
@@ -220,13 +227,49 @@ public class GameFrame extends JFrame implements ActionListener{
 					}
 					if(test.isBomb[i][j] == true)
 					{
-						gameButtons[i][j].setBackground(Color.RED);
+						//gameButtons[i][j].setBackground(Color.RED);
+						//gameButtons[i][j].setIcon(bomb2);
+						
+						timeMeter.stop();
+						titleLabel.setText("Niestety Przegrywasz!");
+						for (int k=0; k<gameButtons.length; k++)
+						{
+							for (int l=0; l<gameButtons[0].length; l++)
+							{
+								gameButtons[k][l].setEnabled(false);
+								if(test.isBomb[k][l] == true)
+								{
+									gameButtons[k][l].setBackground(Color.RED);
+									gameButtons[k][l].setIcon(bomb2);
+								}
+							}
+						}
+						
 					}
 					else
 					{
+						bombsAroundString = String.valueOf(test.bombsAround[i][j]);
+						gameButtons[i][j].setText(bombsAroundString);//
 						gameButtons[i][j].setBackground(Color.GREEN);
+						pressMeter++;
 					}
 					gameButtons[i][j].setEnabled(false);
+					if(pressMeter == 85)
+					{
+						titleLabel.setText("Zwyciestwo!");
+						timeMeter.stop();
+						for (int k=0; k<gameButtons.length; k++)
+						{
+							for (int l=0; l<gameButtons[0].length; l++)
+							{
+								gameButtons[k][l].setEnabled(false);
+								if(test.isBomb[k][l] == true)
+								{
+									gameButtons[k][l].setIcon(bomb2);
+								}
+							}
+						}
+					}
 				}
 			}
 		}

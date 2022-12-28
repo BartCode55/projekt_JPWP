@@ -11,9 +11,9 @@ public class Gameplay {
 	
 	Random randomBombs;
 	
-	public boolean checkRepeats(int posX, int posY)
+	public boolean checkRepeats(int posY, int posX)
 	{
-		if(isBomb[posX][posY] == true)
+		if(isBomb[posY][posX] == true)
 		{
 			return false;
 		}
@@ -24,28 +24,116 @@ public class Gameplay {
 	{
 		boolean resultOfCheck;
 		int bombCounter = 0;
-		int bombAround;
+		int bombAround = 0;
 		isBomb = new boolean[sizeOfGrid][sizeOfGrid];
 		bombsAround = new int[sizeOfGrid][sizeOfGrid];
 		
 		randomBombs = new Random();
 		do
 		{
-			positionX = randomBombs.nextInt(10);
 			positionY = randomBombs.nextInt(10);
-			resultOfCheck = checkRepeats(positionX, positionY);
+			positionX = randomBombs.nextInt(10);
+
+			resultOfCheck = checkRepeats(positionY, positionX);
 			if(resultOfCheck == true)
 			{
 				bombCounter++;
-				isBomb[positionX][positionY] = true;
+				isBomb[positionY][positionX] = true;
 			}
 		}while(bombCounter < 15);
 		
-		for (int i=0; i<bombsAround.length; i++)
+		for (int i=0; i<bombsAround.length; i++)//ArrayIndexOutOfBoundsException
 		{
 			for (int j=0; j<bombsAround[0].length; j++)
 			{
-				
+				try 
+				{
+					if(isBomb[i-1][j-1] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+				}
+				try 
+				{
+					if(isBomb[i-1][j] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+				}
+				try 
+				{
+					if(isBomb[i-1][j+1] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					
+				}
+				try 
+				{
+					if(isBomb[i][j-1] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					
+				}
+				try 
+				{
+					if(isBomb[i][j+1] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					
+				}
+				try 
+				{
+					if(isBomb[i+1][j-1] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					
+				}
+				try 
+				{
+					if(isBomb[i+1][j] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					
+				}
+				try 
+				{
+					if(isBomb[i+1][j+1] == true)
+					{
+						bombAround++;
+					}
+				}
+				catch(ArrayIndexOutOfBoundsException e)
+				{
+					
+				}
+				bombsAround[i][j] = bombAround;
+				bombAround = 0;
 			}
 		}
 	}
