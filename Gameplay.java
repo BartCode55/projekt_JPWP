@@ -1,17 +1,16 @@
 import java.util.Random;
 
-public class Gameplay {
+public class Gameplay{
 
 	int positionX;
 	int positionY;
-	int sizeOfGrid = 10;
 	
-	boolean isBomb[][];
-	int bombsAround[][];// dokoncz to dodaj to zeby zliczylo ile bomb wokolo i do kazdego buttona dopisalo
+	boolean isBomb[][];//tablica przechowujaca wiadomosc czy na polu okreslonym lokalizacja x, y jest bomba
+	int bombsAround[][];//tablica przechowujaca wiadomosc ile bomb jest wokolo pola okreslonego lokalizacja x, y
 	
 	Random randomBombs;
 	
-	public boolean checkRepeats(int posY, int posX)
+	public boolean checkRepeats(int posY, int posX)//funkcja ktora sprawdza czy powtarza sie wartosc na danym polu
 	{
 		if(isBomb[posY][posX] == true)
 		{
@@ -20,7 +19,7 @@ public class Gameplay {
 		return true;
 	}
 	
-	public void randomizeBombs()
+	public void randomizeBombs(int sizeOfGrid, boolean hardMap)//funkcja ktora losuje ilosc bomb dla danego poziomu trudnosci i przydziela do wylosowanego pola
 	{
 		boolean resultOfCheck;
 		int bombCounter = 0;
@@ -29,20 +28,39 @@ public class Gameplay {
 		bombsAround = new int[sizeOfGrid][sizeOfGrid];
 		
 		randomBombs = new Random();
-		do
+		if(hardMap == false)
 		{
-			positionY = randomBombs.nextInt(10);
-			positionX = randomBombs.nextInt(10);
-
-			resultOfCheck = checkRepeats(positionY, positionX);
-			if(resultOfCheck == true)
+			do
 			{
-				bombCounter++;
-				isBomb[positionY][positionX] = true;
-			}
-		}while(bombCounter < 15);
+				positionY = randomBombs.nextInt(10);
+				positionX = randomBombs.nextInt(10);
+
+				resultOfCheck = checkRepeats(positionY, positionX);//funkcja sprawdza czy sa powtorzenia
+				if(resultOfCheck == true)
+				{
+					bombCounter++;
+					isBomb[positionY][positionX] = true;
+				}
+			}while(bombCounter < 15);//poziom latwy ma 15 bomb
+		}
+		if(hardMap == true)
+		{
+			do
+			{
+				positionY = randomBombs.nextInt(15);
+				positionX = randomBombs.nextInt(15);
+
+				resultOfCheck = checkRepeats(positionY, positionX);
+				if(resultOfCheck == true)
+				{
+					bombCounter++;
+					isBomb[positionY][positionX] = true;
+				}
+			}while(bombCounter < 40);//dla trudnej mapy bomb jest 40
+		}
 		
-		for (int i=0; i<bombsAround.length; i++)//ArrayIndexOutOfBoundsException
+		
+		for (int i=0; i<bombsAround.length; i++)//dodawanie bomb w poblizu obsluga wyjatku wyjscia poza obszar tablicy zeby poprawnie zliczylo bombe dla kazdego pola
 		{
 			for (int j=0; j<bombsAround[0].length; j++)
 			{
@@ -75,7 +93,6 @@ public class Gameplay {
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					
 				}
 				try 
 				{
@@ -86,7 +103,6 @@ public class Gameplay {
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					
 				}
 				try 
 				{
@@ -97,7 +113,6 @@ public class Gameplay {
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					
 				}
 				try 
 				{
@@ -108,7 +123,6 @@ public class Gameplay {
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					
 				}
 				try 
 				{
@@ -119,7 +133,6 @@ public class Gameplay {
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					
 				}
 				try 
 				{
@@ -130,16 +143,10 @@ public class Gameplay {
 				}
 				catch(ArrayIndexOutOfBoundsException e)
 				{
-					
 				}
-				bombsAround[i][j] = bombAround;
+				bombsAround[i][j] = bombAround;//dodanie lacznej wartosci dla danego pola
 				bombAround = 0;
 			}
 		}
 	}
-	
-	
-	
-	
-	
 }
