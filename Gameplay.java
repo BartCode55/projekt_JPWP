@@ -59,7 +59,6 @@ public class Gameplay{
 			}while(bombCounter < 40);//dla trudnej mapy bomb jest 40
 		}
 		
-		
 		for (int i=0; i<bombsAround.length; i++)//dodawanie bomb w poblizu obsluga wyjatku wyjscia poza obszar tablicy zeby poprawnie zliczylo bombe dla kazdego pola
 		{
 			for (int j=0; j<bombsAround[0].length; j++)

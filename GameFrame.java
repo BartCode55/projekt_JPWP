@@ -335,6 +335,7 @@ public class GameFrame extends JFrame implements ActionListener{
 										if(test.isBomb[k][l] == true)
 										{
 											gameButtons[k][l].setIcon(bomb2);
+											pressMeter = 0;
 										}
 									}
 								}
@@ -354,6 +355,7 @@ public class GameFrame extends JFrame implements ActionListener{
 										if(test.isBomb[k][l] == true)
 										{
 											gameButtons[k][l].setIcon(bomb2);
+											pressMeter = 0;
 										}
 									}
 								}
