@@ -15,35 +15,33 @@ import javax.swing.JPanel;
 
 public class GameFrame extends JFrame implements ActionListener{
 	
-	JLabel titleLabel;//Label odpowiedzialny za napis na gorze ekranu
-	JLabel menuLabel;//Label odpowiedzialny za napis Menu:
-	JLabel timeLabel;//Label w ktorym pokazany jest i dziala miernik czasu rozgrywki
-	JPanel menuPanel;//Panel w prawej częsci ekranu posiadający menu opcji takich jak reset trudniejszy poziom i wyjscie z gry oraz licznik czasu rozgrywki i informacja o bombach
-	JPanel titlePanel;//Panel na górze ekranu, który informuje o wygranej lub przegranej a domyślnie posiada tytuł gry
-	JPanel gamePanel;//Panel głównej rozgrywki
-	JButton[] menuButtons;//4 przyciski z panelu menu
-	JButton[][] gameButtons;//przyciski rozgrywki tablica przechowuje 10x10 przyciskow dla latwego poziomu i 15x15 przyciskow dla trudnego
-	ImageIcon bomb = new ImageIcon("bomb.png");//ikonka bomby widoczna obok napisu na gorze ekranu oraz ikonka gry
-	ImageIcon bomb2 = new ImageIcon("bomb2.png");//ikona bomby w grze
-	ImageIcon flag = new ImageIcon("flag.png");//ikona flagi w grze
-	Gameplay test;//obiekt klasy gameplay wykorzystywany w metodzie gameplay
+	JLabel titleLabel;/** Label odpowiedzialny za napis na gorze ekranu */
+	JLabel menuLabel;/** Label odpowiedzialny za napis Menu:*/
+	JLabel timeLabel;/** Label w ktorym pokazany jest i dziala miernik czasu rozgrywki */
+	JPanel menuPanel;/** Panel w prawej częsci ekranu posiadający menu opcji takich jak reset trudniejszy poziom i wyjscie z gry oraz licznik czasu rozgrywki i informacja o bombach */
+	JPanel titlePanel;/** Panel na górze ekranu, który informuje o wygranej lub przegranej a domyślnie posiada tytuł gry */
+	JPanel gamePanel;/** Panel głównej rozgrywki */
+	JButton[] menuButtons;/** 4 przyciski z panelu menu */
+	JButton[][] gameButtons;/** przyciski rozgrywki tablica przechowuje 10x10 przyciskow dla latwego poziomu i 15x15 przyciskow dla trudnego */
+	ImageIcon bomb = new ImageIcon("bomb.png");/** ikonka bomby widoczna obok napisu na gorze ekranu oraz ikonka gry */
+	ImageIcon bomb2 = new ImageIcon("bomb2.png");/** ikona bomby w grze */
+	ImageIcon flag = new ImageIcon("flag.png");/** ikona flagi w grze */
+	Gameplay test;/** obiekt klasy gameplay wykorzystywany w metodzie gameplay */
 	
-	int time = 0;
-	int seconds = 0;
-	int minutes = 0;
-	boolean firstPress = false;//bool ktory sprawdza pierwsze nacisniecie zeby rozpoczac odliczanie miernika czasu
-	boolean hardMap = false;//bool ktory sprawdza czy jest wlaczony trudniejszy poziom
-	boolean flagButton = false;//bool ktory sprawdza nacisniecie przycisku marker
-	int pressMeter;// miernik nacisniec dzieki ktoremu mozna okreslic zwyciestwo poprzez wcisniecie wszystkich pol bez bomby
+	int time = 0; /** zmienna potrzebna do czasomierza/1000 by liczono od co sekunde nie co milisekunde */
+	int seconds = 0;/** zmienna przechowujaca sekundy czasomierza */
+	int minutes = 0;/** zmienna przechowujaca minuty czasomierza */
+	boolean firstPress = false;/** bool ktory sprawdza pierwsze nacisniecie zeby rozpoczac odliczanie miernika czasu */
+	boolean hardMap = false;/** bool ktory sprawdza czy jest wlaczony trudniejszy poziom */
+	boolean flagButton = false;/** bool ktory sprawdza nacisniecie przycisku marker */
+	int pressMeter;/** miernik nacisniec dzieki ktoremu mozna okreslic zwyciestwo poprzez wcisniecie wszystkich pol bez bomby */
 	String secondsString = String.format("%02d", seconds);
 	String minutesString = String.format("%02d", minutes);
 	
-	int sizeOfGrid = 10;//zmienna okrelsajaca rozmiar planszy ilosc przyciskow
-	int xPos;
-	int yPos;
-	String bombsAroundString;
+	int sizeOfGrid = 10;/** zmienna okrelsajaca rozmiar planszy ilosc przyciskow */
+	String bombsAroundString; /** zmienna do ktorej przypisana jeast ilosc bomb wokol danego buttona */
 	
-	//obiekt czasomierzu
+	/** obiekt czasomierzu */
 	Timer timeMeter = new Timer(1000, new ActionListener() {
 		
 		public void actionPerformed(ActionEvent e) {
@@ -57,7 +55,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		}
 	});
 	
-	//konstruktor w ktorym tworzone sa poszczegolne panele oraz pierwszy raz losowanie z funkcji gameplay
+	/** konstruktor w ktorym tworzone sa poszczegolne panele oraz pierwszy raz losowanie z funkcji gameplay */
 	GameFrame(){
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -80,7 +78,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		
 		this.setVisible(true);
 	}
-	//metoda tworzaca panel gry oraz guziki rozgrywki
+	/** metoda tworzaca panel gry oraz guziki rozgrywki */
 	public void createGamePanel()
 	{
 		sizeOfGrid = 10;
@@ -105,7 +103,7 @@ public class GameFrame extends JFrame implements ActionListener{
 			}
 		}
 	}
-	//metoda tworzaca panel gry oraz guziki dla poziomu trudnego
+	/** metoda tworzaca panel gry oraz guziki dla poziomu trudnego */
 	public void createGamePanel2()
 	{
 		for (int i=0; i<gameButtons.length; i++)
@@ -141,7 +139,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		test.randomizeBombs(15, true);
 		this.add(gamePanel);
 	}
-	//metoda odpowiadajaca za tworzenie panelu menu wraz z guzikami menu
+	/** metoda odpowiadajaca za tworzenie panelu menu wraz z guzikami menu */
 	public void createMenuPanel()
 	{
 		menuPanel = new JPanel();
@@ -191,7 +189,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		menuPanel.add(timeLabel);
 		menuPanel.add(menuLabel);
 	}
-	//tworzenie panelu z napisem tytulowym ktory zmienia sie w zaleznosci od wygranej lub przegranej
+	/** tworzenie panelu z napisem tytulowym ktory zmienia sie w zaleznosci od wygranej lub przegranej */
 	public void createTitlePanel()
 	{
 		titlePanel = new JPanel();
@@ -207,7 +205,7 @@ public class GameFrame extends JFrame implements ActionListener{
 		
 		titlePanel.add(titleLabel);
 	}
-	//metoda wywolujaca metody klasy gameplay
+	/** metoda wywolujaca metody klasy gameplay */
 	public void gameplay()
 	{
 		test = new Gameplay();
@@ -220,7 +218,7 @@ public class GameFrame extends JFrame implements ActionListener{
 			test.randomizeBombs(15, true);
 		}
 	}
-	//metoda ktora resetuje licznik czasu
+	/** metoda ktora resetuje licznik czasu */
 	public void resetTime()
 	{
 		timeMeter.stop();

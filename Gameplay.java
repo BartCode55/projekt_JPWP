@@ -1,16 +1,23 @@
 import java.util.Random;
 
+/** klasa odpowiedzialna za losowanie bomb i techniczne aspekty takie jak ilosc bomb w poblizu */
 public class Gameplay{
 
-	int positionX;
-	int positionY;
+	int positionX;/** zmienna przechowujaca pozycje x w siatce guzikow */
+	int positionY;/** zmienna przechowujaca pozycje x w siatce guzikow */
 	
-	boolean isBomb[][];//tablica przechowujaca wiadomosc czy na polu okreslonym lokalizacja x, y jest bomba
-	int bombsAround[][];//tablica przechowujaca wiadomosc ile bomb jest wokolo pola okreslonego lokalizacja x, y
+	boolean isBomb[][];/** tablica przechowujaca wiadomosc czy na polu okreslonym lokalizacja x, y jest bomba */
+	int bombsAround[][];/** tablica przechowujaca wiadomosc ile bomb jest wokolo pola okreslonego lokalizacja x, y */
 	
 	Random randomBombs;
 	
-	public boolean checkRepeats(int posY, int posX)//funkcja ktora sprawdza czy powtarza sie wartosc na danym polu
+	/** 
+	 * metoda ktora sprawdza czy powtarza sie wartosc na danym polu 
+	 * @param posY
+	 * @param posX
+	 * @return
+	 */
+	public boolean checkRepeats(int posY, int posX)
 	{
 		if(isBomb[posY][posX] == true)
 		{
@@ -19,7 +26,12 @@ public class Gameplay{
 		return true;
 	}
 	
-	public void randomizeBombs(int sizeOfGrid, boolean hardMap)//funkcja ktora losuje ilosc bomb dla danego poziomu trudnosci i przydziela do wylosowanego pola
+	/**
+	 * funkcja ktora losuje ilosc bomb dla danego poziomu trudnosci i przydziela do wylosowanego pola
+	 * @param sizeOfGrid
+	 * @param hardMap
+	 */
+	public void randomizeBombs(int sizeOfGrid, boolean hardMap)
 	{
 		boolean resultOfCheck;
 		int bombCounter = 0;

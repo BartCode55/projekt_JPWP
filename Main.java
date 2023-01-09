@@ -4,5 +4,4 @@ public class Main {
 		
 		GameFrame gameWindow = new GameFrame();
 	}
-
 }
